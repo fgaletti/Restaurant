@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Restaurant.Domain.Repositories;
+using Restaurant.Domain.Services;
+using Restaurant.Infrastructure;
+using Restaurant.Infrastructure.Repositories;
 
 namespace Restaurant.Api
 {
@@ -25,6 +29,16 @@ namespace Restaurant.Api
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddDbContext<DataContext>(options =>
+         options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("WebApi2")));
+
+            services.AddScoped<ICourseRepository, CourseRepository>();
+
+            // add services dependency injecction
+
+            services.AddScoped<ICourseService, CourseService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
