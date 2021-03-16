@@ -24,16 +24,8 @@ export class CourseComponent implements OnInit {
 
 
   constructor(_http: HttpClient, @Inject('BASE_URL') _baseUrl: string) {
-
-  
-
     this.baseurl = _baseUrl;
     this.http = _http;
-    console.log(_baseUrl + 'api/course');
-    _http.get<Course[]>(_baseUrl + 'api/course').subscribe(result => {
-      this.Courses = result;
-      console.log(this.Courses);
-    }, error => console.error(error));
   }
 
   ngOnInit() {
@@ -84,12 +76,8 @@ export class CourseComponent implements OnInit {
 
     clearInterval(this.interval); // start another timer
     this.count = 0;
+
     this.interval = setInterval(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
-        this.timeLeft = 60;
-      }
       this.count = this.mapCoursesWatched.get(courseId);
       console.log(this.count++);
       this.mapCoursesWatched.set(courseId, this.count++);  //add 1 value to the dictionary
@@ -105,8 +93,6 @@ export class CourseComponent implements OnInit {
         clearInterval(this.interval); // start another timer
         return;
       }
-
-
       console.log(this.count);
     }, 1000)
   }
