@@ -36,7 +36,7 @@ namespace Restaurant.Api
             });
 
             services.AddDbContext<DataContext>(options =>
-         options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("Restaurant.Api")));
+         options.UseSqlServer(Configuration["ConnectionStrings:AzureConnection"], b => b.MigrationsAssembly("Restaurant.Api")));
 
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IUserCourseRepository, UserCourseRepository>();
