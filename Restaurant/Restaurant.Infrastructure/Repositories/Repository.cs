@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Restaurant.Infrastructure.Repositories
 {
@@ -19,12 +20,6 @@ namespace Restaurant.Infrastructure.Repositories
             _context = context;
             _entities = context.Set<TEntity>();
         }
-
-        //public Repository(DbContext context)
-        //{
-        //    _context = context;
-        //    _entities = context.Set<TEntity>();
-        //}
 
         public virtual void Add(TEntity entity)
         {

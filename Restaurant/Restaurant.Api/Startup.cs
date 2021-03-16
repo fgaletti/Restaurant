@@ -1,13 +1,18 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Restaurant.Api.Helpers;
 using Restaurant.Domain.Repositories;
 using Restaurant.Domain.Services;
 using Restaurant.Infrastructure;
 using Restaurant.Infrastructure.Repositories;
+using System.Net;
 
 namespace Restaurant.Api
 {
@@ -31,14 +36,17 @@ namespace Restaurant.Api
             });
 
             services.AddDbContext<DataContext>(options =>
-         options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("WebApi2")));
+         options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("Restaurant.Api")));
 
             services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IUserCourseRepository, UserCourseRepository>();
 
-            // add services dependency injecction
-
+            // add services dependency injection
             services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IUserCourseService, UserCourseService>();
 
+            // Enable Cross-Origin Requests
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +58,20 @@ namespace Restaurant.Api
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                // app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler(builder => {
+                    builder.Run(async context => {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if (error != null)
+                        {
+                            //Add helpers extension
+                            context.Response.AddApplicationError(error.Error.Message);
+                            await context.Response.WriteAsync(error.Error.Message);
+                        }
+                    });
+                }
+              );
             }
 
             app.UseStaticFiles();

@@ -1,0 +1,25 @@
+
+COURSES
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let course of Courses">
+      <td>{{ course.description }}</td>
+      <td class="ml-3 ">{{ course.length }}</td>
+      <td><button (click)="addCourse(course.id)">Add Course</button></td>
+      <td><button class="ml-3 btn-primary" (click)="startPlaying(course.id, course.length)">Play</button></td>
+
+      <td>{{ getPercentageWatched(course.id)  + ' % ' }}</td>
+
+      <td><button class="ml-3 btn-secondary" (click)="stopPlaying()">Stop</button></td>
+
+    </tr>
+  </tbody>
+</table>

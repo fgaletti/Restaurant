@@ -1,0 +1,22 @@
+
+
+<div class="container  ">
+  <div class="row bg-dark text-white" >
+
+    <div class="col-lg-4 col-md-4  col-sm-3 mb-2 text-center">
+      <span> User </span>
+    </div>
+    <div class="col-lg-4 col-md-4  col-sm-4 mb-2 text-center">
+      <span> Course </span>
+    </div>
+  </div>
+  <div class="row " *ngFor="let userCourse of userCourseList">
+
+    <div class="col-lg-4 col-md-4  col-sm-3 mb-2 text-center">
+      <span> {{userCourse.userName}} </span>
+    </div>
+    <div class="col-lg-4 col-md-4  col-sm-4 mb-2 text-center">
+      <span> {{userCourse.courseDescription}} </span>
+    </div>
+  </div>
+</div>

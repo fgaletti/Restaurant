@@ -15,9 +15,9 @@ namespace Restaurant.Domain.Services
         {
             _iCourseRepository = iCourseRepository;
         }
-        public Task<IEnumerable<Course>> GetAllAsync()
+        public async Task<IEnumerable<Course>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _iCourseRepository.GetAll();
         }
     }
 }

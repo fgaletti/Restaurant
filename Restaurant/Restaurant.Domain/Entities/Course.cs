@@ -8,6 +8,6 @@ namespace Restaurant.Domain.Entities
     {
         public int Id { get; set; }
         public string Description { get; set; }
-        public int Lenght { get; set; }
+        public float Length { get; set; }
     }
 }
